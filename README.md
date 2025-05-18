@@ -107,9 +107,30 @@ private async Task HandleImageUpload(InputFileChangeEventArgs e)
 
     var filePath = Path.Combine(imageDirectory, fileName);
 
+
+
     await using var fileStream = File.Create(filePath);
     await file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024).CopyToAsync(fileStream);
 
     Movie.ImageUrl = $"images/{fileName}";
 }
+```
+### Wdrożenie na Microsoft Azure
+
+Podczas próby wdrożenia aplikacji na platformę Microsoft Azure napotkano problem wynikający z różnych regionów dla App Service i bazy danych SQL.
+
+Problem:
+
+Aplikacja została wdrożona w regionie East Europe, natomiast baza danych znajdowała się w East Europe 2.
+
+W rezultacie połączenia były niestabilne lub całkowicie niemożliwe, ze względu na ograniczenia sieciowe między regionami.
+
+Konfiguracja connection stringa
+
+Do pliku Program.cs dodano:
+
+```csharp
+var connectionString = "Data Source=tcp:mywebmovieappdbserver.database.windows.net,1433;Initial Catalog=MyWebMovieApp_Db;User ID=xxadminxx;Password=Qwerty1234";
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
 ```
