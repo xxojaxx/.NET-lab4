@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab4", "Lab4\Lab4.csproj", "{62B58638-248A-414A-A5E5-206578B588A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebMovieApp", "MyWebMovieApp\MyWebMovieApp.csproj", "{56409748-38DA-4EA0-9288-66B01A86E832}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62B58638-248A-414A-A5E5-206578B588A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B58638-248A-414A-A5E5-206578B588A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B58638-248A-414A-A5E5-206578B588A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B58638-248A-414A-A5E5-206578B588A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56409748-38DA-4EA0-9288-66B01A86E832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56409748-38DA-4EA0-9288-66B01A86E832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56409748-38DA-4EA0-9288-66B01A86E832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56409748-38DA-4EA0-9288-66B01A86E832}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E6F4909-1915-4AB6-B334-4FD9EA2D4837}
+	EndGlobalSection
+EndGlobal

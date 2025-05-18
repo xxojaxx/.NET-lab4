@@ -1,0 +1,79 @@
+﻿@page "/movies/details"
+@using Microsoft.EntityFrameworkCore
+@using MovieWebApp.Components.Model
+@inject IDbContextFactory<MovieWebApp.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Movie</h2>
+    <hr />
+    @if (movie is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <EditForm Model="this" OnValidSubmit="AddRating">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="mb-3">
+                <label for="newRating">Dodaj ocenę (0–10):</label>
+                <InputNumber id="newRating" @bind-Value="newRating" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Zatwierdź ocenę</button>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Movie? movie;
+    private float newRating;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        movie = await context.Movies.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (movie is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task AddRating()
+    {
+        if (movie is null || newRating < 0 || newRating > 10)
+            return;
+
+        using var context = DbFactory.CreateDbContext();
+
+        // Pobierz film ponownie, by upewnić się że masz najnowsze dane
+        var movieToUpdate = await context.Movies.FirstOrDefaultAsync(m => m.Id == movie.Id);
+        if (movieToUpdate is null) return;
+
+        // Oblicz nową ocenę jako średnią
+        if (movieToUpdate.NumberOfRatings == 0)
+        {
+            movieToUpdate.Rate = newRating;
+        }
+        else
+        {
+            movieToUpdate.Rate = ((movieToUpdate.Rate ?? 0) * movieToUpdate.NumberOfRatings + newRating)
+                                 / (movieToUpdate.NumberOfRatings + 1);
+        }
+
+        movieToUpdate.NumberOfRatings++;
+
+        await context.SaveChangesAsync();
+
+        // Odśwież dane na stronie
+        movie = movieToUpdate;
+        newRating = 0; // wyczyść pole formularza
+    }
+}
